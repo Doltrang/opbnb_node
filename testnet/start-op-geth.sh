@@ -10,6 +10,7 @@ else
    echo "need build"
    echo "bash build-op-bnb.sh"
    echo "bash data_preparation.sh"
+   exit
 fi
 
 

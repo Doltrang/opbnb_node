@@ -11,6 +11,7 @@ else
    echo "need build"
    echo "bash build-op-bnb.sh"
    echo "bash data_preparation.sh"
+   exit
 fi
 
 export L2_RPC=http://localhost:8551
