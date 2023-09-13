@@ -1,22 +1,13 @@
 #!/bin/bash
 path=`pwd`
-set -ex
 export OPBNB_WORKSPACE=${path}/data
+set -ex
+
 cd $OPBNB_WORKSPACE/op-node-data
 
-execFile=$OPBNB_WORKSPACE/op-node-data/op-node
-if [ -f "$execFile" ]; then
-    echo "no need build"
-else
-   echo "need build"
-   echo "bash build-op-bnb.sh"
-   echo "bash data-preparation.sh"
-   exit
-fi
-
 export L2_RPC=http://localhost:8551
-# it's better to replace the L1_RPC with your own BSC Testnet RPC Endpoint for stability
-export L1_RPC=https://data-seed-prebsc-1-s1.binance.org:8545
+# it's better to replace the L1_RPC with your own BSC Mainnet RPC Endpoint for stability
+export L1_RPC=https://bsc-dataseed.bnbchain.org
 # replace the p2p private key with yours
 # you can generate a new one with `openssl rand -hex 32`
 if test -f "p2p_priv_key.txt"; then
@@ -28,7 +19,8 @@ if [[ -z $p2p_priv_key ]]; then
     echo $p2p_priv_key >> p2p_priv_key.txt
 fi
 export P2P_PRIV_KEY=$p2p_priv_key
-export P2P_BOOTNODES=enr:-J24QJKXHEkIhy0tmIk2EscMZ2aRrivNsZf_YhgIU51g4ZKHWY0BxW6VedRJ1jxmneW9v7JjldPOPpLkaNSo6cXGFxqGAYpK96oCgmlkgnY0gmlwhANzx96Hb3BzdGFja4PrKwCJc2VjcDI1NmsxoQMOCzUFffz04eyDrmkbaSCrMEvLvn5O4RZaZ5k1GV4wa4N0Y3CCIyuDdWRwgiMr
+export P2P_BOOTNODES="enr:-J24QA9sgVxbZ0KoJ7-1gx_szfc7Oexzz7xL2iHS7VMHGj2QQaLc_IQZmFthywENgJWXbApj7tw7BiouKDOZD4noWEWGAYppffmvgmlkgnY0gmlwhDbjSM6Hb3BzdGFja4PMAQCJc2VjcDI1NmsxoQKetGQX7sXd4u8hZr6uayTZgHRDvGm36YaryqZkgnidS4N0Y3CCIyuDdWRwgiMs"
+
 ./op-node \
   --l1.trustrpc \
   --sequencer.l1-confs=15 \
@@ -43,6 +35,7 @@ export P2P_BOOTNODES=enr:-J24QJKXHEkIhy0tmIk2EscMZ2aRrivNsZf_YhgIU51g4ZKHWY0BxW6
   --p2p.listen.ip=0.0.0.0 \
   --p2p.listen.tcp=9003 \
   --p2p.listen.udp=9003 \
+  --p2p.nat \
   --snapshotlog.file=./snapshot.log \
   --p2p.priv.raw=$P2P_PRIV_KEY \
   --p2p.bootnodes=$P2P_BOOTNODES \

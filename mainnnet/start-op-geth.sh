@@ -2,20 +2,8 @@
 path=`pwd`
 export OPBNB_WORKSPACE=${path}/data
 cd $OPBNB_WORKSPACE/op-geth-data
-
-execFile=$OPBNB_WORKSPACE/op-geth-data/op-geth
-if [[ -f "$execFile" ]]; then
-  echo "no need build"
-else
-   echo "need build"
-   echo "bash build-op-bnb.sh"
-   echo "bash data-preparation.sh"
-   exit
-fi
-
-
-export CHAIN_ID=5611
-export L2_RPC=https://opbnb-testnet-rpc.bnbchain.org
+export CHAIN_ID=204
+export L2_RPC=https://opbnb-mainnet-rpc.bnbchain.org
 
 ./op-geth \
   --datadir="./datadir" \
